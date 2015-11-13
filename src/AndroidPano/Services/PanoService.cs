@@ -93,9 +93,7 @@ namespace AndroidPano.Services
                 XDocument xdoc = XDocument.Load($"http://m.{panoModel.GetWebsite()}.nl/partialaction/krpanoxml/{panoModel.GlobalId}/{panoModel.SoortAanbod}/{pano.Id}/");
                 var images = xdoc.Root.Descendants("tablet").Descendants();
 
-                // hotspots
                 xmlService.AddScene(pano, GetHotspots(xdoc, panoModel), images.First().FirstAttribute.Value);
-                xmlService.WriteToFile(objectDir);
             }
             catch (Exception e)
             {
@@ -109,6 +107,7 @@ namespace AndroidPano.Services
             {
                 ProcessPano(pano, panos, objectDir);
             }
+            xmlService.WriteToFile(objectDir);
         }
 
         private IEnumerable<XElement> GetHotspots(XDocument xdoc, PanoModel panos)

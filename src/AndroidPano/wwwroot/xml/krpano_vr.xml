@@ -12,80 +12,21 @@
 	<!-- the intro pano -->
 	<view fovtype="VFOV" fov="90" fovmin="40" fovmax="150" />
 
-	<events name="vr_menu_events" keep="true" onviewchange="vr_menu_following();"  />
+	<!--<events name="vr_menu_events" keep="true" onviewchange="vr_menu_following();"  />-->
 
-	<!-- the intro scene 3d hotspots -->
+	<!-- hotspots -->
+  <style 
+    name="hotspotstyle" 
+    url="../images/hotspot.png" 
+    distorted="true" 
+    onclick="goto(get(linkedscene));"
+    vr_timeout="1000" />
 
-	<!-- krpano VR logo -->
-	<!--<hotspot name="krpanologo" distorted="true" enabled="false"
-	         url="../img/texts.png" crop="0|0|440|90"
-	         ath="0" atv="0"
-	         depth="2000"
-	         ty="-1000"
-	         />-->
-
-	<!-- start button -->
-	<!--<hotspot name="start" distorted="true"
-	         url="../img/texts.png" crop="80|450|690|100"
-	         ath="0" atv="0"
-	         depth="4000"
-	         vr_timeout="2000"
-	         zorder="99"
-	         onclick="set(enabled,false); tween(ty|alpha, 8000|0.0, 2.5, easeInQuint, removehotspot(start)); delayedcall(2.0,start_vr());"
-	         alpha="0.0"
-	         onloaded="if(vr_start_done === true, removehotspot(start); start_vr(); , tween(alpha,1); );"
-	         />-->
-
-
-	<!-- start animation -->
-	<action name="start_vr">
-		set(start_ty, 10000);
-		set(start_tt, 3.0);
-		if(vr_start_done === true,
-			set(start_ty, 75);
-			set(start_tt, 0.5);
-		  ,
-			set(vr_start_done, true);
-		  );
-		callwith(hotspot[p1],        copy(ty,start_ty); tween(alpha|ty, 0.5|75, get(start_tt), easeOutQuad|easeOutQuint); );
-		callwith(hotspot[p1_thumb1], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p1_thumb2], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p1_thumb3], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p1_thumb4], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p1_txt],    copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint); );
-
-		callwith(hotspot[p2],        copy(ty,start_ty); tween(alpha|ty, 0.5|75, get(start_tt), easeOutQuad|easeOutQuint); );
-		callwith(hotspot[p2_thumb1], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p2_thumb2], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p2_thumb3], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p2_thumb4], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p2_txt],    copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint); );
-
-		callwith(hotspot[p3],        copy(ty,start_ty); tween(alpha|ty, 0.5|75, get(start_tt), easeOutQuad|easeOutQuint); );
-		callwith(hotspot[p3_thumb1], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
-		callwith(hotspot[p3_txt],    copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint); );
-	</action>
-
-	<!-- pano changing actions -->
-	<action name="changepano">
-		for(set(i,0), i LT hotspot.count, inc(i),
-			if(hotspot[get(i)].style == 'thumb', set(hotspot[get(i)].enabled, false); );
-			if(hotspot[get(i)].name != 'vr_cursor', tween(hotspot[get(i)].alpha, 0.0, 0.25); );
-		  );
-		delayedcall(0.25, %1; vr_menu_setvisibility(true); );
-	</action>
-
-
-	<action name="nextscene_loop">
-		if(xml.scene != null AND scene.count GT 1,
-			add(newsceneindex, scene[get(xml.scene)].index, %1);
-			sub(lastsceneindex, scene.count, 1);
-			if(newsceneindex LT 0, copy(newsceneindex,lastsceneindex));
-			if(newsceneindex GT lastsceneindex, set(newsceneindex,0));
-			loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1));
-		  );
-	</action>
-
+  <action name="goto">
+    mul(newdepth, depth, 2);
+    tween(depth, get(newdepth), 0.25);
+    tween(oy|alpha|rx, -400|0|45, 0.25, default, loadscene(%1, null, NOPREVIEW|MERGE|KEEPMOVING, BLEND(1)) );
+  </action>
 
 	<!-- TEMP PRE-RELEASE STUFF -->
 	<display hotspotrenderer="webgl" devices="html5" />	<!-- force using WebGL for the hotspots -->

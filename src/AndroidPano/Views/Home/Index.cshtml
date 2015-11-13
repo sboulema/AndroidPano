@@ -1,9 +1,27 @@
-﻿AndroidPano is going to be awesome!
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>AndroidPano</title>
+</head>
+<body>
+    <div style="background-color: #F8B000; border-bottom: 2px solid #6EC8E5; padding-top: 6px; padding-left: 16px;">
+        <img alt="funda logo" height="32px" width="94px" style="margin-bottom: 6px;" src="//assets.fstatic.nl/543/assets/components/logo/funda-logo.svg">
+    </div>
 
-<input id="tinyIdInput" type="text"/>
-<input id="startButton" type="button" value="Start" onclick="loadPano()" onkeypress="handle(event)" />
+    <div style="background-color: #E7F1F5;">
+        <div class="search-banner-overlay search-banner-overlay-middle">
+            <h1 class="search-banner-tagline">
+                <strong>AndroidPano</strong> is awesome!
+            </h1>
+        </div>
+    </div>
 
-<script>
+    <div id="start-background">
+        <input id="tinyIdInput" type="number" /><br />
+        <button id="startButton" style="background-color: rgb(56, 136, 197); color: rgb(255, 255, 255); width: 380px; border-radius: 2px;" onclick="loadPano()" onkeypress="handle(event)">Start</button>
+    </div>
+
+    <script>
     function loadPano() {
         window.location = document.getElementById('tinyIdInput').value
     }
@@ -14,4 +32,6 @@
         }
         return false;
     }
-</script>
+    </script>
+</body>
+</html>
