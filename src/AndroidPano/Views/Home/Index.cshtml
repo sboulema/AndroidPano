@@ -1,0 +1,17 @@
+﻿AndroidPano is going to be awesome!
+
+<input id="tinyIdInput" type="text"/>
+<input id="startButton" type="button" value="Start" onclick="loadPano()" onkeypress="handle(event)" />
+
+<script>
+    function loadPano() {
+        window.location = document.getElementById('tinyIdInput').value
+    }
+
+    function handle(e) {
+        if (e.keyCode === 13) {
+            loadPano();
+        }
+        return false;
+    }
+</script>

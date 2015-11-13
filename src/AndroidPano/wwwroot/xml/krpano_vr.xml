@@ -1,4 +1,4 @@
-<krpano>
+<krpano onstart="loadscene(get(scene[0].name), null, MERGE);">
 
 	<!-- webvr.xml - WebVR plugin, enter/exit VR buttons, VR cursor, VR setup -->
 	<include url="../plugins/webvr.xml" />
@@ -11,11 +11,6 @@
 
 	<!-- the intro pano -->
 	<view fovtype="VFOV" fov="90" fovmin="40" fovmax="150" />
-	<!--<preview url="panos/woonkamer/preview.jpg" />-->
-	<image>
-		<cube url="../panos/woonkamer/tablet_%s.jpg" />
-		<cube url="../panos/woonkamer/tablet_%s.jpg" devices="iOS" />
-	</image>
 
 	<events name="vr_menu_events" keep="true" onviewchange="vr_menu_following();"  />
 

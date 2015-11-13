@@ -1,0 +1,20 @@
+﻿<script src="~/js/embedpano.js"></script>
+
+<div id="pano" style="width:100%;height:100%;">
+    <noscript><table style="width:100%;height:100%;"><tr style="vertical-align:middle;text-align:center;"><td>ERROR:<br><br>Javascript not activated<br><br></td></tr></table></noscript>
+    <script>
+		        if(!document.domain && window.chrome && location.search.toLowerCase().indexOf("html5=only") > 0)
+		        {
+			        // Chrome doesn't allow loading local xml files in HTML5
+			        document.getElementById("pano").innerHTML = '<table style="width:100%;height:100%;"><tr style="vertical-align:middle;text-align:center;"><td>Loading local/offline xml files is not allowed in HTML5 due Chrome security restrictions!<br>Use a localhost server (like the <a href="http://krpano.com/tools/ktestingserver/#top">krpano Testing Server</a>) for local/offline testing.</td></tr></table>';
+		        }
+		        else
+		        {
+		            embedpano({js:"js/krpano.js", xml:"@ViewData["Pano"]", target:"pano", html5:"prefer", passQueryParameters:true});
+		        }
+    </script>
+</div>
+
+@section Stylesheets{
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+}
