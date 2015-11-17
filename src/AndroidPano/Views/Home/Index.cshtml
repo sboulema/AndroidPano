@@ -2,24 +2,28 @@
 <html>
 <head>
     <title>AndroidPano</title>
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
 </head>
 <body>
     <div style="background-color: #F8B000; border-bottom: 2px solid #6EC8E5; padding-top: 6px; padding-left: 16px;">
         <img alt="funda logo" height="32px" width="94px" style="margin-bottom: 6px;" src="//assets.fstatic.nl/543/assets/components/logo/funda-logo.svg">
     </div>
 
-    <div style="background-color: #E7F1F5;">
-        <div class="search-banner-overlay search-banner-overlay-middle">
-            <h1 class="search-banner-tagline">
-                <strong>AndroidPano</strong> is awesome!
-            </h1>
-        </div>
-    </div>
+    <center>
+        <h1 class="search-banner-tagline">
+            <strong>WebVR</strong> made simple!
+        </h1>
 
-    <div id="start-background">
-        <input id="tinyIdInput" type="number" /><br />
-        <button id="startButton" style="background-color: rgb(56, 136, 197); color: rgb(255, 255, 255); width: 380px; border-radius: 2px;" onclick="loadPano()" onkeypress="handle(event)">Start</button>
-    </div>
+        <div id="start-background">
+            <input id="tinyIdInput" type="number" placeholder="tinyId" /><br /><br />
+            <button id="startButton" style="background-color: rgb(56, 136, 197); color: rgb(255, 255, 255); width: 380px; border-radius: 2px;" onclick="loadPano()" onkeypress="handle(event)">Start</button>
+        </div>
+    </center>
 
     <script>
     function loadPano() {

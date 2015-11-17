@@ -12,7 +12,7 @@
 	<!-- the intro pano -->
 	<view fovtype="VFOV" fov="90" fovmin="40" fovmax="150" />
 
-	<!--<events name="vr_menu_events" keep="true" onviewchange="vr_menu_following();"  />-->
+	<events name="change_scene" keep="true" onclick="nextscene_loop(+1);" />
 
 	<!-- hotspots -->
   <style 
@@ -22,13 +22,24 @@
     onclick="goto(get(linkedscene));"
     vr_timeout="1000" />
 
+  <!-- pano changing actions -->
   <action name="goto">
     mul(newdepth, depth, 2);
     tween(depth, get(newdepth), 0.25);
     tween(oy|alpha|rx, -400|0|45, 0.25, default, loadscene(%1, null, NOPREVIEW|MERGE|KEEPMOVING, BLEND(1)) );
   </action>
 
-	<!-- TEMP PRE-RELEASE STUFF -->
+  <action name="nextscene_loop">
+    if(xml.scene != null AND scene.count GT 1,
+    add(newsceneindex, scene[get(xml.scene)].index, %1);
+    sub(lastsceneindex, scene.count, 1);
+    if(newsceneindex LT 0, copy(newsceneindex,lastsceneindex));
+    if(newsceneindex GT lastsceneindex, set(newsceneindex,0));
+    loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1));
+    );
+  </action>
+
+  <!-- TEMP PRE-RELEASE STUFF -->
 	<display hotspotrenderer="webgl" devices="html5" />	<!-- force using WebGL for the hotspots -->
 	<view continuousupdates="true" devices="html5" />	<!-- constantly update the screen (required for WebGL hotspots for the moment) -->
 	<!-- TEMP PRE-RELEASE STUFF -->

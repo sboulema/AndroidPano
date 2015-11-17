@@ -3,4 +3,4 @@
 /.vs
 /artifacts
 /src/AndroidPano/*.user
-/src/AndroidPano/wwwroot/androidpano/48969534/tour.xml
+*tour.xml

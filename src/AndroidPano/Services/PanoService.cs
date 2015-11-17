@@ -82,7 +82,11 @@ namespace AndroidPano.Services
                 var xdoc = XElement.Parse(xml);
                 return xdoc.Elements().FirstOrDefault(e => e.Name.LocalName.Equals("SoortAanbod")).Value;
             }
-
+            else
+            {
+                Console.WriteLine(result.ReasonPhrase);
+            }
+            
             return string.Empty;
         }
 
