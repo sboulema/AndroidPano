@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.AspNet.Hosting;
 
 namespace AndroidPano.Services
 {
@@ -16,17 +17,19 @@ namespace AndroidPano.Services
     {
         private readonly IConfigurationService configurationService;
         private readonly IXMLService xmlService;
+        private readonly IHostingEnvironment env;
 
-        public PanoService(IConfigurationService configurationService, IXMLService xmlService)
+        public PanoService(IConfigurationService configurationService, IXMLService xmlService, IHostingEnvironment env)
         {
             this.configurationService = configurationService;
             this.xmlService = xmlService;
+            this.env = env;
         }
 
         public void LoadPano(string tinyId)
         {
             var panos = GetPanos(tinyId);
-            var objectDir = $@"androidpano\{tinyId}\";
+            var objectDir = $@"{env.WebRootPath}/androidpano/{tinyId}/";
             Directory.CreateDirectory(objectDir);
 
             xmlService.Init();
