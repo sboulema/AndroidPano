@@ -20,8 +20,9 @@
         </h1>
 
         <div id="start-background">
-            <input id="tinyIdInput" type="number" placeholder="tinyId" /><br /><br />
-            <button id="startButton" style="background-color: rgb(56, 136, 197); color: rgb(255, 255, 255); width: 380px; border-radius: 2px;" onclick="loadPano()" onkeypress="handle(event)">Start</button>
+            <input id="tinyIdInput" type="text" pattern="\d*" maxlength="8" size="8" placeholder="tinyId" />
+            <br /><br /><br />
+            <button id="startButton" onclick="loadPano()" onkeypress="handle(event)">Start</button>
         </div>
     </center>
 

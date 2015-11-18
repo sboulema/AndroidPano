@@ -24,3 +24,18 @@ body {
 a {
     color: #FFFFFF;
 }
+
+#startButton {
+    background-color: rgb(56, 136, 197); 
+    color: rgb(255, 255, 255); 
+    width: 60%;
+    max-width: 380px; 
+    border-radius: 2px;
+    font-weight: bold;
+    padding: 8px;
+    border: 0;
+}
+
+#tinyIdInput {
+    font-size: xx-large;
+}
