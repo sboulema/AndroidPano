@@ -1,4 +1,4 @@
-# AndroidPano
+# WebVRPano
 Using WebVR to look at real estate
 
 # Getting started

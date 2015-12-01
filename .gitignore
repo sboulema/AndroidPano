@@ -4,3 +4,4 @@
 /artifacts
 /src/AndroidPano/*.user
 *tour.xml
+/src/AndroidPano/*.csdat

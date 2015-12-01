@@ -48,6 +48,12 @@ namespace AndroidPano.Services
         public List<RootObject> Get360Photos(string globalId, string soortAanbod)
         {
             var apiKey = configurationService.Get("ApiKey");
+
+            if (soortAanbod.Equals("nieuwbouw"))
+            {
+                soortAanbod = "nieuwbouwproject";
+            }
+
             var requestUrl = $"http://partnerapi.funda.nl/feeds/Aanbod.svc/get360photos/{apiKey}/?globalId={globalId}&soortAanbod={soortAanbod}";
 
             try
@@ -95,17 +101,37 @@ namespace AndroidPano.Services
 
         private void ProcessPano(Pano pano, PanoModel panoModel, string objectDir)
         {
-            try
-            {
-                XDocument xdoc = XDocument.Load($"http://m.{panoModel.GetWebsite()}.nl/partialaction/krpanoxml/{panoModel.GlobalId}/{panoModel.SoortAanbod}/{pano.Id}/");
-                var images = xdoc.Root.Descendants("tablet").Descendants();
+            HttpResponseMessage result;
+            string soortAanbod = panoModel.SoortAanbod;
 
+            using (HttpClient client = new HttpClient())
+            {
+                result = client.GetAsync($"http://partnerapi.funda.nl/feeds/MijnFunda.svc/GetKrpanoXmlContent/?type={soortAanbod}&globalId={panoModel.GlobalId}&mediaGuid={pano.Id}").Result;
+            }
+
+            if (result.IsSuccessStatusCode)
+            {
+                var xml = result.Content.ReadAsStringAsync().Result;
+                var xdoc = XDocument.Parse(Sanitize(xml));
+                var images = xdoc.Root.Descendants("tablet").Descendants();
                 xmlService.AddScene(pano, GetHotspots(xdoc, panoModel), images.First().FirstAttribute.Value);
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(result.ReasonPhrase);
             }
+        }
+
+        private string Sanitize(string xml)
+        {
+            string result = xml;
+
+            result = result.Replace("<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">", string.Empty);
+            result = result.Replace("&lt;", "<");
+            result = result.Replace("&gt;", ">");
+            result = result.Replace("</string>", string.Empty);
+
+            return result;
         }
 
         private void ProcessPanos(PanoModel panos, string objectDir)
