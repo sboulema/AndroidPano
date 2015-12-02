@@ -1,13 +1,13 @@
-using Microsoft.Framework.Configuration;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace AndroidPano.Services
 {
     public class ConfigurationService : IConfigurationService
     {
-		private readonly IConfiguration configuration;
+		private readonly IConfigurationRoot configuration;
 		
-		public ConfigurationService(IConfiguration configuration) 
+		public ConfigurationService(IConfigurationRoot configuration) 
 		{
 			this.configuration = configuration;
 		}

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.Mvc;
 using AndroidPano.Services;
+using Microsoft.AspNet.Diagnostics;
+using Microsoft.AspNet.Http.Features;
 
 namespace AndroidPano.Controllers
 {
@@ -23,6 +25,15 @@ namespace AndroidPano.Controllers
             panoService.LoadPano(tinyId);
 
             ViewData["Pano"] = $"androidpano/{tinyId}/tour.xml";
+
+            return View();
+        }
+
+        public IActionResult Error()
+        {
+            var error = HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+            ViewData["Error"] = error.Error.Message;
 
             return View();
         }

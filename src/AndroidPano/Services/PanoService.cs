@@ -40,6 +40,11 @@ namespace AndroidPano.Services
         private PanoModel GetPanos(string tinyId)
         {
             string globalId = Descramble(tinyId);
+            if (string.IsNullOrEmpty(globalId) || globalId.Length < 7)
+            {
+                throw new Exception("Ongeldig tinyId");
+            }
+
             var soortAanbod = GetSoortAanbod(globalId);
             var panoItems = Get360Photos(globalId, soortAanbod);
             return new PanoModel(panoItems, globalId, soortAanbod);

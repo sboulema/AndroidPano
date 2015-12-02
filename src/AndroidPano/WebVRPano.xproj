@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleContent Include="AndroidPano.xproj.csdat" />
+    <DnxInvisibleContent Include="WebVRPano.xproj.csdat" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

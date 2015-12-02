@@ -15,28 +15,9 @@
     </div>
 
     <center>
-        <h1 class="search-banner-tagline">
-            <strong>WebVR</strong> made simple!
-        </h1>
-
-        <div id="start-background">
-            <input id="tinyIdInput" type="text" pattern="\d*" maxlength="8" size="8" placeholder="tinyId" />
-            <br /><br /><br />
-            <button id="startButton" onclick="loadPano()" onkeypress="handle(event)">Start</button>
-        </div>
+        <h1>@ViewData["Error"]</h1>
+        <br /><br /><br />
+        <button id="backButton" onclick="window.history.back();">Ga terug</button>
     </center>
-
-    <script>
-    function loadPano() {
-        window.location = document.getElementById('tinyIdInput').value
-    }
-
-    function handle(e) {
-        if (e.keyCode === 13) {
-            loadPano();
-        }
-        return false;
-    }
-    </script>
 </body>
 </html>
