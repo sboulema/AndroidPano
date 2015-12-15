@@ -17,16 +17,17 @@
 	<!-- hotspots -->
   <style 
     name="hotspotstyle" 
-    url="../images/hotspot.png" 
+    url="../images/360-hotspot.png" 
+    onover="set(url, ../images/360-hotspot-hover.png);"
     distorted="true" 
     onclick="goto(get(linkedscene));"
     vr_timeout="1000" />
 
   <!-- pano changing actions -->
   <action name="goto">
-    mul(newdepth, depth, 2);
+    mul(newdepth, depth, 2;)
     tween(depth, get(newdepth), 0.25);
-    tween(oy|alpha|rx, -400|0|45, 0.25, default, loadscene(%1, null, NOPREVIEW|MERGE|KEEPMOVING, BLEND(1)) );
+    tween(oy|alpha|rx, -400|0|45, 0.25, default, loadscene(%1, null, NOPREVIEW|MERGE|KEEPMOVING, COLORBLEND(3.0, 0x000000, easeOutSine)));
   </action>
 
   <action name="nextscene_loop">
@@ -35,7 +36,7 @@
     sub(lastsceneindex, scene.count, 1);
     if(newsceneindex LT 0, copy(newsceneindex,lastsceneindex));
     if(newsceneindex GT lastsceneindex, set(newsceneindex,0));
-    loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1));
+    loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPMOVING, BLEND(1));
     );
   </action>
 
