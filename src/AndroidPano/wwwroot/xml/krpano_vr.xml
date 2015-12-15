@@ -4,7 +4,11 @@
 	<include url="../plugins/webvr.xml" />
 
 	<!-- add/overwrite some settings from the webvr.xml for this example -->
-	<plugin name="WebVR" mobilevr_fake_support="true" />		<!-- enable the FAKE VR support to allow testing also on desktop and tablets without VR support -->
+  <!-- enable the FAKE VR support to allow testing also on desktop and tablets without VR support -->
+	<plugin 
+    name="WebVR" 
+    mobilevr_fake_support="true" 
+    onentervr="setupVRDevice()" />		
 
 	<!-- use the dragging control by default -->
 	<control mousetype="drag2d" />
@@ -25,9 +29,7 @@
 
   <!-- pano changing actions -->
   <action name="goto">
-    mul(newdepth, depth, 2;)
-    tween(depth, get(newdepth), 0.25);
-    tween(oy|alpha|rx, -400|0|45, 0.25, default, loadscene(%1, null, NOPREVIEW|MERGE|KEEPMOVING, COLORBLEND(3.0, 0x000000, easeOutSine)));
+    loadscene(%1, null, NOPREVIEW|MERGE|KEEPMOVING, COLORBLEND(3.0, 0x000000, easeOutSine))
   </action>
 
   <action name="nextscene_loop">
@@ -38,6 +40,14 @@
     if(newsceneindex GT lastsceneindex, set(newsceneindex,0));
     loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPMOVING, BLEND(1));
     );
+  </action>
+
+  <action name="setupVRDevice">
+    webvr_onentervr();
+    jscall(console.log("setupVR"));
+    jscall(console.log(WebVR.devicename));
+    jscall(console.log(devicename));
+    <!--if(devicename == "CardBoard B");-->
   </action>
 
   <!-- TEMP PRE-RELEASE STUFF -->
