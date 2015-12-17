@@ -7,8 +7,7 @@
   <!-- enable the FAKE VR support to allow testing also on desktop and tablets without VR support -->
 	<plugin 
     name="WebVR" 
-    mobilevr_fake_support="true" 
-    onentervr="setupVRDevice();" />		
+    mobilevr_fake_support="true" />		
 
 	<!-- use the dragging control by default -->
 	<control mousetype="drag2d" />
@@ -16,7 +15,7 @@
 	<!-- the intro pano -->
 	<view fovtype="VFOV" fov="90" fovmin="40" fovmax="150" />
 
-	<events name="change_scene" keep="true" onclick="nextscene_loop(+1);" />
+	<events name="change_scene" keep="true" onclick="click_nextscene_loop();" />
 
 	<!-- hotspots -->
   <style 
@@ -38,18 +37,14 @@
     sub(lastsceneindex, scene.count, 1);
     if(newsceneindex LT 0, copy(newsceneindex,lastsceneindex));
     if(newsceneindex GT lastsceneindex, set(newsceneindex,0));
-    loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPMOVING, BLEND(1));
+    loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPMOVING, COLORBLEND(3.0, 0x000000, easeOutSine));
     );
   </action>
-
-  <action name="setupVRDevice">
-    webvr_onentervr();
-   
-    jscall(console.log(krpano.get("webvr.devicename")));
-    
-    jscall(alert(krpano.get("webvr.devicename")));
   
-    <!--if(devicename == "CardBoard B");-->
+  <action name="click_nextscene_loop">
+    <!--CardBoard B-->
+    jsget(headset, 'localStorage.getItem("krpano.webvr.1")');
+    if (headset == "63.5,0,96,0.6,100,3", nextscene_loop(+1));
   </action>
 
   <!-- TEMP PRE-RELEASE STUFF -->
