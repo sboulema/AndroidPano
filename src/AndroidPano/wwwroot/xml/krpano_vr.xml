@@ -8,7 +8,7 @@
 	<plugin 
     name="WebVR" 
     mobilevr_fake_support="true" 
-    onentervr="setupVRDevice()" />		
+    onentervr="setupVRDevice();" />		
 
 	<!-- use the dragging control by default -->
 	<control mousetype="drag2d" />
@@ -44,9 +44,11 @@
 
   <action name="setupVRDevice">
     webvr_onentervr();
-    jscall(console.log("setupVR"));
-    jscall(console.log(WebVR.devicename));
-    jscall(console.log(devicename));
+   
+    jscall(console.log(krpano.get("webvr.devicename")));
+    
+    jscall(alert(krpano.get("webvr.devicename")));
+  
     <!--if(devicename == "CardBoard B");-->
   </action>
 
