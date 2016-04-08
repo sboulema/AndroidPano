@@ -3,13 +3,60 @@
 	<!-- webvr.xml - WebVR plugin, enter/exit VR buttons, VR cursor, VR setup -->
 	<include url="../plugins/webvr.xml" />
 
-	<!-- add/overwrite some settings from the webvr.xml for this example -->
-  <!-- enable the FAKE VR support to allow testing also on desktop and tablets without VR support -->
-	<plugin 
-    name="WebVR" 
-    mobilevr_fake_support="true" />		
+  <!-- add/overwrite some settings from the webvr.xml for this example 
+		- enable the fake mode
+		- add events for portrait usage
+	-->
+  <plugin name="WebVR"
+	        mobilevr_fake_support="true"
+	        onentervr="webvr_onentervr(); webvr_act_as_gyro_in_portrait_mode(true);"
+	        onexitvr="webvr_onexitvr(); tween(layer[webvr_rotate_to_landscape_request].alpha, 0.0, 0.0);"
+	        />
 
-	<!-- use the dragging control by default -->
+  <!-- re-align the vr button and 'auto-start' the video when pressing the enterVR button -->
+  <layer name="webvr_enterbutton"
+	       align="bottom" y="10%"
+	       ondown="video_auto_start();"
+	       />
+
+  <!-- show a 'rotate the device' info when the mobile device is in portrait orientation in VR mode -->
+  <layer name="webvr_rotate_to_landscape_request" keep="true" vr="true" devices="mobile"
+	       url="rotate_device.png" scale="0.5"
+	       align="top" edge="center" y="28%"
+	       autoalpha="true" alpha="0.0"
+	       enabled="false"
+	       />
+
+  <events name="webvr_events" keep="true" devices="html5"
+	        onresize.mobile="webvr_act_as_gyro_in_portrait_mode();"
+	        />
+
+  <action name="webvr_act_as_gyro_in_portrait_mode">
+    if(device.mobile AND webvr.isenabled,
+    div(aspect, stagewidth, stageheight);
+    if(aspect != lastaspect OR '%1' == 'true',
+    copy(lastaspect, aspect);
+    if(stagewidth GT stageheight,
+    <!-- landscape orientation - use stereo rendering and a direct/fast gyro sensor mode -->
+    set(display.stereo, true);
+    set(webvr.mobilevr_sensor_mode, 3);
+    webvr.update();
+    tween(layer[webvr_rotate_to_landscape_request].alpha, 0.0, 0.0);
+    ,
+    <!-- portrait orientation - use normal rendering and a smoother/slower gyro sensor mode -->
+    set(display.stereo, false);
+    set(webvr.mobilevr_sensor_mode, 1);
+    webvr.update();
+    tween(layer[webvr_rotate_to_landscape_request].alpha, 1.0);
+    delayedcall(3.0, tween(layer[webvr_rotate_to_landscape_request].alpha, 0.0, 1.0); );
+    );
+    );
+    ,
+    set(lastaspect, 0);
+    );
+  </action>
+
+  <!-- use the dragging control by default -->
 	<control mousetype="drag2d" />
 
 	<!-- the intro pano -->
@@ -46,10 +93,4 @@
     jsget(headset, 'localStorage.getItem("krpano.webvr.1")');
     if (headset == "63.5,0,96,0.6,100,3", nextscene_loop(+1));
   </action>
-
-  <!-- TEMP PRE-RELEASE STUFF -->
-	<display hotspotrenderer="webgl" devices="html5" />	<!-- force using WebGL for the hotspots -->
-	<view continuousupdates="true" devices="html5" />	<!-- constantly update the screen (required for WebGL hotspots for the moment) -->
-	<!-- TEMP PRE-RELEASE STUFF -->
-
 </krpano>
