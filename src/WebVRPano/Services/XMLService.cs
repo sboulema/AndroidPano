@@ -1,28 +1,32 @@
-﻿using AndroidPano.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using AndroidPano.Models;
 
-namespace AndroidPano.Services
+namespace WebVRPano.Services
 {
-    public class XMLService : IXMLService
+    public class XmlService : IXMLService
     {
-        XElement tourXml;
+        XElement _tourXml;
 
         public void Init()
         {
-            tourXml = new XElement("krpano");
+            _tourXml = new XElement("krpano");
 
             var include = new XElement("include");
             var includeUrl = new XAttribute("url", "../../xml/krpano_vr.xml");
             include.Add(includeUrl);
-            tourXml.Add(include);
+            _tourXml.Add(include);
         }
 
         public void WriteToFile(string dir)
         {
-            tourXml.Save(Path.Combine(dir, "tour.xml"));
-            tourXml = null;
+            using (var fs = new FileStream(Path.Combine(dir, "tour.xml"), FileMode.Create))
+            {
+                _tourXml.Save(fs);
+            }
+            
+            _tourXml = null;
         }
 
         public void AddScene(Pano pano, IEnumerable<XElement> hotspots, string imageUrl)
@@ -45,7 +49,7 @@ namespace AndroidPano.Services
                 scene.Add(spot);
             }
 
-            tourXml.Add(scene);
+            _tourXml.Add(scene);
         }
     }
 }

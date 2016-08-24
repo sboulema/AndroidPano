@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace AndroidPano.Services
+﻿namespace WebVRPano.Services
 {
     public interface IPanoService
     {

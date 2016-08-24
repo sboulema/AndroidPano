@@ -1,6 +1,4 @@
-﻿using AndroidPano.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,9 +7,11 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Microsoft.AspNet.Hosting;
+using AndroidPano.Models;
+using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 
-namespace AndroidPano.Services
+namespace WebVRPano.Services
 {
     public class PanoService : IPanoService
     {

@@ -1,4 +1,4 @@
-namespace AndroidPano.Services
+namespace WebVRPano.Services
 {
     public interface IConfigurationService
     {

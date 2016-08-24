@@ -1,7 +1,7 @@
-using Microsoft.Extensions.Configuration;
 using System;
+using Microsoft.Extensions.Configuration;
 
-namespace AndroidPano.Services
+namespace WebVRPano.Services
 {
     public class ConfigurationService : IConfigurationService
     {

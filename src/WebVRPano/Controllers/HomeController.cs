@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNet.Mvc;
-using AndroidPano.Services;
-using Microsoft.AspNet.Diagnostics;
-using Microsoft.AspNet.Http.Features;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using WebVRPano.Services;
 
-namespace AndroidPano.Controllers
+namespace WebVRPano.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IPanoService panoService;
+        private readonly IPanoService _panoService;
 
         public HomeController(IPanoService panoService)
         {
-            this.panoService = panoService;
+            _panoService = panoService;
         }
 
         public IActionResult Index()
@@ -22,7 +21,7 @@ namespace AndroidPano.Controllers
         [Route("{tinyId}")]
         public IActionResult Pano(string tinyId)
         {
-            panoService.LoadPano(tinyId);
+            _panoService.LoadPano(tinyId);
 
             ViewData["Pano"] = $"androidpano/{tinyId}/tour.xml";
 

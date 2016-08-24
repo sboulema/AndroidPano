@@ -1,8 +1,8 @@
-﻿using AndroidPano.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
+using AndroidPano.Models;
 
-namespace AndroidPano.Services
+namespace WebVRPano.Services
 {
     public interface IXMLService
     {
