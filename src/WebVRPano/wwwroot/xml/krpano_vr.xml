@@ -75,9 +75,9 @@
 
   <!-- pano changing actions -->
   <action name="goto">
-    loadscene(%1, null, NOPREVIEW|MERGE|KEEPMOVING, COLORBLEND(3.0, 0x000000, easeOutSine))
+    loadscene(%1, null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1))
   </action>
-
+<!-- 
   <action name="nextscene_loop">
     if(xml.scene != null AND scene.count GT 1,
     add(newsceneindex, scene[get(xml.scene)].index, %1);
@@ -86,7 +86,17 @@
     if(newsceneindex GT lastsceneindex, set(newsceneindex,0));
     loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPMOVING, COLORBLEND(3.0, 0x000000, easeOutSine));
     );
-  </action>
+  </action> -->
+  
+  	<action name="nextscene_loop">
+		if(xml.scene != null AND scene.count GT 1,
+			add(newsceneindex, scene[get(xml.scene)].index, %1);
+			sub(lastsceneindex, scene.count, 1);
+			if(newsceneindex LT 0, copy(newsceneindex,lastsceneindex));
+			if(newsceneindex GT lastsceneindex, set(newsceneindex,0));
+			loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1));
+		);
+	</action>
   
   <action name="click_nextscene_loop">
     <!--CardBoard B-->

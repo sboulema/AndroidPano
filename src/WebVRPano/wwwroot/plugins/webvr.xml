@@ -6,6 +6,7 @@
 	        onloaded="copy(webvr, plugin[WebVR]);"
 	        mousespeed="0.00125"
 	        multireslock="true"
+	        fullscreen_mirroring="true"
 	        mobilevr_support="true"
 	        mobilevr_ipd="63.5"
 	        mobilevr_screensize="auto"

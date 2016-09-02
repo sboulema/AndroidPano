@@ -5,3 +5,5 @@
 /src/AndroidPano/*.user
 *tour.xml
 /src/AndroidPano/*.csdat
+/src/WebVRPano/bin
+/src/WebVRPano/obj
