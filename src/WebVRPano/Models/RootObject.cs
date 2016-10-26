@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AndroidPano.Models
+namespace WebVRPano.Models
 {
     public class RootObject
     {

@@ -18,7 +18,7 @@ namespace WebVRPano
 
             services.AddTransient<IConfigurationService>(r => new ConfigurationService(Configuration));
             services.AddTransient<IPanoService, PanoService>();
-            services.AddTransient<IXMLService, XmlService>();
+            services.AddTransient<IXmlService, XmlService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

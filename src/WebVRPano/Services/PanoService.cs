@@ -5,41 +5,40 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using AndroidPano.Models;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
+using WebVRPano.Models;
 
 namespace WebVRPano.Services
 {
     public class PanoService : IPanoService
     {
-        private readonly IConfigurationService configurationService;
-        private readonly IXMLService xmlService;
-        private readonly IHostingEnvironment env;
+        private readonly IConfigurationService _configurationService;
+        private readonly IXmlService _xmlService;
+        private readonly IHostingEnvironment _env;
 
-        public PanoService(IConfigurationService configurationService, IXMLService xmlService, IHostingEnvironment env)
+        public PanoService(IConfigurationService configurationService, IXmlService xmlService, IHostingEnvironment env)
         {
-            this.configurationService = configurationService;
-            this.xmlService = xmlService;
-            this.env = env;
+            _configurationService = configurationService;
+            _xmlService = xmlService;
+            _env = env;
         }
 
         public void LoadPano(string tinyId)
         {
             var panos = GetPanos(tinyId);
-            var objectDir = $@"{env.WebRootPath}/androidpano/{tinyId}/";
+            var objectDir = $@"{_env.WebRootPath}/webvrpano/{tinyId}/";
             Directory.CreateDirectory(objectDir);
 
-            xmlService.Init();
+            _xmlService.Init();
 
             ProcessPanos(panos, objectDir);
         }
 
         private PanoModel GetPanos(string tinyId)
         {
-            string globalId = Descramble(tinyId);
+            var globalId = Descramble(tinyId);
             if (string.IsNullOrEmpty(globalId) || globalId.Length < 7)
             {
                 throw new Exception("Ongeldig tinyId");
@@ -52,7 +51,7 @@ namespace WebVRPano.Services
 
         public List<RootObject> Get360Photos(string globalId, string soortAanbod)
         {
-            var apiKey = configurationService.Get("ApiKey");
+            var apiKey = _configurationService.Get("ApiKey");
 
             if (soortAanbod.Equals("nieuwbouw"))
             {
@@ -63,11 +62,10 @@ namespace WebVRPano.Services
 
             try
             {
-                string response;
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    response = httpClient.GetStringAsync(requestUrl).Result;
+                    var response = httpClient.GetStringAsync(requestUrl).Result;
                     return JsonConvert.DeserializeObject<List<RootObject>>(response);
                 }
             }
@@ -81,11 +79,11 @@ namespace WebVRPano.Services
 
         private string GetSoortAanbod(string globalId)
         {
-            var apiKey = configurationService.Get("ApiKey");
+            var apiKey = _configurationService.Get("ApiKey");
             var detailAlgemeenUrl = $"http://partnerapi.funda.nl/feeds/Aanbod.svc/detail/{apiKey}/algemeen/{globalId}";
             HttpResponseMessage result;
 
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 result = client.GetAsync(detailAlgemeenUrl).Result;
             }
@@ -96,20 +94,17 @@ namespace WebVRPano.Services
                 var xdoc = XElement.Parse(xml);
                 return xdoc.Elements().FirstOrDefault(e => e.Name.LocalName.Equals("SoortAanbod")).Value;
             }
-            else
-            {
-                Console.WriteLine(result.ReasonPhrase);
-            }
-            
+
+            Console.WriteLine(result.ReasonPhrase);
             return string.Empty;
         }
 
-        private void ProcessPano(Pano pano, PanoModel panoModel, string objectDir)
+        private void ProcessPano(Pano pano, PanoModel panoModel)
         {
             HttpResponseMessage result;
-            string soortAanbod = panoModel.SoortAanbod;
+            var soortAanbod = panoModel.SoortAanbod;
 
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 result = client.GetAsync($"http://partnerapi.funda.nl/feeds/MijnFunda.svc/GetKrpanoXmlContent/?type={soortAanbod}&globalId={panoModel.GlobalId}&mediaGuid={pano.Id}").Result;
             }
@@ -119,7 +114,7 @@ namespace WebVRPano.Services
                 var xml = result.Content.ReadAsStringAsync().Result;
                 var xdoc = XDocument.Parse(Sanitize(xml));
                 var images = xdoc.Root.Descendants("tablet").Descendants();
-                xmlService.AddScene(pano, GetHotspots(xdoc, panoModel), images.First().FirstAttribute.Value);
+                _xmlService.AddScene(pano, GetHotspots(xdoc, panoModel), images.First().FirstAttribute.Value);
             }
             else
             {
@@ -127,9 +122,9 @@ namespace WebVRPano.Services
             }
         }
 
-        private string Sanitize(string xml)
+        private static string Sanitize(string xml)
         {
-            string result = xml;
+            var result = xml;
 
             result = result.Replace("<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">", string.Empty);
             result = result.Replace("&lt;", "<");
@@ -143,12 +138,12 @@ namespace WebVRPano.Services
         {
             foreach (var pano in panos.Panos)
             {
-                ProcessPano(pano, panos, objectDir);
+                ProcessPano(pano, panos);
             }
-            xmlService.WriteToFile(objectDir);
+            _xmlService.WriteToFile(objectDir);
         }
 
-        private IEnumerable<XElement> GetHotspots(XDocument xdoc, PanoModel panos)
+        private static IEnumerable<XElement> GetHotspots(XDocument xdoc, PanoModel panos)
         {
             var hotspots = xdoc.Root.Descendants("hotspot");
             foreach (var hotspot in hotspots)
@@ -163,23 +158,6 @@ namespace WebVRPano.Services
             }
 
             return hotspots;
-        }
-
-        private async Task DownloadFileAsync(string url, string filename)
-        {
-            try
-            {
-                using (HttpClient httpClient = new HttpClient())
-                {
-                    var contentStream = httpClient.GetStreamAsync(url).Result;
-                    var stream = new FileStream(filename, FileMode.Create);
-                    await contentStream.CopyToAsync(stream);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
 
         private static string Descramble(string input)

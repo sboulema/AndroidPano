@@ -1,4 +1,4 @@
-﻿namespace AndroidPano.Models
+﻿namespace WebVRPano.Models
 {
     public class MediaItem
     {

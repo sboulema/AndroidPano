@@ -23,7 +23,7 @@ namespace WebVRPano.Controllers
         {
             _panoService.LoadPano(tinyId);
 
-            ViewData["Pano"] = $"androidpano/{tinyId}/tour.xml";
+            ViewData["Pano"] = $"webvrpano/{tinyId}/tour.xml";
 
             return View();
         }

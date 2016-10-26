@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace AndroidPano.Models
+namespace WebVRPano.Models
 {
     public class PanoModel
     {

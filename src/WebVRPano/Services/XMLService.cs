@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
-using AndroidPano.Models;
+using WebVRPano.Models;
 
 namespace WebVRPano.Services
 {
-    public class XmlService : IXMLService
+    public class XmlService : IXmlService
     {
         XElement _tourXml;
 
