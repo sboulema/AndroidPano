@@ -10,3 +10,4 @@
 /src/WebVRPano/wwwroot/js/krpano.js.backup*
 /src/WebVRPano/wwwroot/plugins/webvr.js.backup*
 /src/WebVRPano/wwwroot/plugins/webvr.xml.backup*
+/src/WebVRPano/*.user
