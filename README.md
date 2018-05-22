@@ -2,7 +2,7 @@
 Using WebVR to look at real estate
 
 # Running the WebVRPano server
-    docker run -p 5000:5000 -d sboulema/webvrpano:latest
+    docker run -p 5000:5000 -d sboulema/webvr:latest
 
 # Using WebVRPano
 How to use WebVRPano combined with a virtual reality solution
