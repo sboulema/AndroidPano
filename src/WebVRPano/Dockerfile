@@ -1,18 +1,21 @@
-# First Stage
-FROM microsoft/dotnet:sdk
+FROM microsoft/dotnet:sdk AS build-env
+WORKDIR /app
 
-RUN mkdir /build
-WORKDIR /build
-
-COPY . /dotnetapp
+# Copy csproj and restore as distinct layers
+COPY *.csproj .
 RUN dotnet restore
 
+# Copy everything else and build
+COPY . .
+RUN dotnet build
+
+# Publish
+FROM build-env AS publish
+WORKDIR /app
 RUN dotnet publish -c Release -o out
 
-# Second Stage
+# Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
-
 WORKDIR /app
-COPY --from=0 /build/out .
-
-ENTRYPOINT dotnet WebVRPano.dll
+COPY --from=publish /app/out .
+ENTRYPOINT ["dotnet", "WebVRPano.dll"]
