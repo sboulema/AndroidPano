@@ -1,5 +1,5 @@
 # First Stage
-FROM microsoft/dotnet:2.1.301-sdk
+FROM microsoft/dotnet:sdk
 
 RUN mkdir /build
 WORKDIR /build
@@ -10,12 +10,9 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # Second Stage
-FROM microsoft/dotnet:2.1.1-aspnetcore-runtime
+FROM microsoft/dotnet:aspnetcore-runtime
 
 WORKDIR /app
 COPY --from=0 /build/out .
-
-ENV ASPNETCORE_URLS http://+:5000 
-EXPOSE 5000/tcp
 
 ENTRYPOINT dotnet WebVRPano.dll
