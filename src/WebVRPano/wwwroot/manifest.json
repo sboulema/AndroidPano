@@ -1,0 +1,15 @@
+{
+  "short_name": "WebVRPano",
+  "name": "WebVRPano",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "192x192",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape"
+}
+
