@@ -27,7 +27,7 @@
 	        mobilevr_fake_support="false"
           mobilevr_database_url="https://webvr.sboulema.nl/dpdb.json"
 	        vr_cursor="hotspot[vr_cursor]"
-	        vr_cursor_enabled="true"
+	        vr_cursor_enabled="false"
 	        vr_cursor_onover="if(handcursor, tween(hotspot[vr_cursor].scale,0.4,0.1); vr_auto_click(get(vr_timeout)); );"
 	        vr_cursor_onout="tween(hotspot[vr_cursor].scale,0.3,0.1);"
 	        onavailable="webvr_onavailable();"
