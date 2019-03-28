@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Linq;
-using WebVRPano.Models;
 
 namespace WebVRPano.Services
 {
@@ -17,6 +15,13 @@ namespace WebVRPano.Services
             var includeUrl = new XAttribute("url", "../../xml/krpano_vr.xml");
             include.Add(includeUrl);
             _tourXml.Add(include);
+
+            var view = new XElement("view");
+            var hlookat = new XAttribute("hlookat", "180");
+            view.Add(hlookat);
+            _tourXml.Add(view);
+
+            //< view hlookat = "180" vlookat = "0" maxpixelzoom = "1.0" limitview = "auto" fovmax = "90" ></ view >
         }
 
         public void WriteToFile(string dir)
@@ -29,25 +34,33 @@ namespace WebVRPano.Services
             _tourXml = null;
         }
 
-        public void AddScene(Pano pano, IEnumerable<XElement> hotspots, string imageUrl)
+        public void AddScene(string cubeUrl)
         {
             var scene = new XElement("scene");
-            var sceneName = new XAttribute("name", pano.Omschrijving);
-            scene.Add(sceneName);
 
             // Images
             var image = new XElement("image");
-            var cube = new XElement("cube");
-            var cubeUrl = new XAttribute("url", imageUrl.Replace("_l", "_%s"));
-            cube.Add(cubeUrl);
-            image.Add(cube);
-            scene.Add(image);
+            var type = new XAttribute("type", "cube");
+            var multires = new XAttribute("multires", "true");
+            var tilesize = new XAttribute("tilesize", "512");
+            image.Add(type);
+            image.Add(multires);
+            image.Add(tilesize);
 
-            // Hotspots
-            foreach (var spot in hotspots)
-            {
-                scene.Add(spot);
-            }
+            var level1 = new XElement("level");
+            var tiledImageWidth1 = new XAttribute("tiledimagewidth", "1664");
+            var tiledImageHeight1 = new XAttribute("tiledimageheight", "1664");
+            level1.Add(tiledImageWidth1);
+            level1.Add(tiledImageHeight1);
+
+            var cube = new XElement("cube");
+            var cubeUrlAttribute = new XAttribute("url", cubeUrl);
+            cube.Add(cubeUrlAttribute);
+
+            level1.Add(cube);
+            image.Add(level1);
+
+            scene.Add(image);
 
             _tourXml.Add(scene);
         }

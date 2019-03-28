@@ -10,7 +10,7 @@ steps:
   inputs:
     containerregistrytype: 'Container Registry'
     dockerRegistryEndpoint: 'Docker Hub'
-    imageName: sboulema/webvr
+    imageName: sboulema/webvr:auto
     includeLatestTag: true
     dockerFile: src/WebVRPano/Dockerfile
 
@@ -20,11 +20,11 @@ steps:
     containerregistrytype: 'Container Registry'
     dockerRegistryEndpoint: 'Docker Hub'
     command: 'Push an image'
-    imageName: sboulema/webvr
+    imageName: sboulema/webvr:auto
     includeLatestTag: true
 
 - task: SSH@0
   displayName: 'Deploy an image'
   inputs:
     sshEndpoint: CurleezBox
-    commands: /home/sboulema/deployDockerContainer WebVR webvr
+    commands: /home/sboulema/deployDockerContainer WebVR webvr-auto

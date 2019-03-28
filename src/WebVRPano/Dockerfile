@@ -18,5 +18,4 @@ RUN dotnet publish -c Release -o out
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
 COPY --from=publish /app/out .
-ENV ApiKey=guid
 ENTRYPOINT ["dotnet", "WebVRPano.dll"]
