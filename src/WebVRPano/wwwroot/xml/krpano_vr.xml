@@ -9,6 +9,7 @@
 	-->
   <plugin name="WebVR"
 	        mobilevr_fake_support="true"
+          vr_cursor_enabled="false"
 	        onentervr="webvr_onentervr(); webvr_act_as_gyro_in_portrait_mode(true);"
 	        onexitvr="webvr_onexitvr(); tween(layer[webvr_rotate_to_landscape_request].alpha, 0.0, 0.0);"
 	        />
