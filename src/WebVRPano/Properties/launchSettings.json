@@ -6,8 +6,7 @@
       "applicationUrl": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:5001",
-        "API_KEY": "5955322d-ba58-4b91-ae86-e40168d69998"
+        "ASPNETCORE_URLS": "http://localhost:5001"
       }
     }
   }

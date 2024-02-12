@@ -7,7 +7,7 @@ namespace WebVRPano.Services;
 
 public class XmlService : IXmlService
 {
-    XElement _tourXml;
+    XElement? _tourXml;
 
     public void Init()
     {
@@ -21,12 +21,8 @@ public class XmlService : IXmlService
 
     public void WriteToFile(string dir)
     {
-        using (var fs = new FileStream(Path.Combine(dir, "tour.xml"), FileMode.Create))
-        {
-            _tourXml.Save(fs);
-        }
-        
-        _tourXml = null;
+        using var fs = new FileStream(Path.Combine(dir, "tour.xml"), FileMode.Create);
+        _tourXml?.Save(fs);
     }
 
     public void AddScene(Pano pano, IEnumerable<XElement> hotspots, string imageUrl)
@@ -49,6 +45,6 @@ public class XmlService : IXmlService
             scene.Add(spot);
         }
 
-        _tourXml.Add(scene);
+        _tourXml?.Add(scene);
     }
 }

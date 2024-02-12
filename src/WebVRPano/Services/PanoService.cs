@@ -88,7 +88,10 @@ public class PanoService(
 
     private async Task ProcessPanos(PanoModel panos, string objectDir)
     {
-        panos.Panos.ForEach(async pano => await ProcessPano(pano, panos));
+        foreach (var pano in panos.Panos)
+        {
+            await ProcessPano(pano, panos);
+        }
 
         xmlService.WriteToFile(objectDir);
     }
