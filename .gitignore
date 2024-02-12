@@ -10,4 +10,6 @@
 /src/WebVRPano/wwwroot/js/krpano.js.backup*
 /src/WebVRPano/wwwroot/plugins/webvr.js.backup*
 /src/WebVRPano/wwwroot/plugins/webvr.xml.backup*
+/src/WebVRPano/wwwroot/plugins/gyro2.js.backup*
 /src/WebVRPano/*.user
+/src/WebVRPano/appsettings.Development.json
