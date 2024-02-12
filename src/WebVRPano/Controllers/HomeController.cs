@@ -1,40 +1,36 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebVRPano.Services;
 
-namespace WebVRPano.Controllers
+namespace WebVRPano.Controllers;
+
+[Route("")]
+public class HomeController(IPanoService panoService) : Controller
 {
-    public class HomeController : Controller
+    [HttpGet]
+    public IActionResult Index()
     {
-        private readonly IPanoService _panoService;
+        return View();
+    }
 
-        public HomeController(IPanoService panoService)
-        {
-            _panoService = panoService;
-        }
+    [HttpGet("{tinyId}")]
+    public async Task<IActionResult> Pano(string tinyId)
+    {
+        await panoService.LoadPano(tinyId);
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        ViewData["Pano"] = $"webvrpano/{tinyId}/tour.xml";
 
-        [Route("{tinyId}")]
-        public IActionResult Pano(string tinyId)
-        {
-            _panoService.LoadPano(tinyId);
+        return View();
+    }
 
-            ViewData["Pano"] = $"webvrpano/{tinyId}/tour.xml";
+    [HttpGet("[action]")]
+    public IActionResult Error()
+    {
+        var error = HttpContext.Features.Get<IExceptionHandlerFeature>();
 
-            return View();
-        }
+        ViewData["Error"] = error?.Error.Message;
 
-        public IActionResult Error()
-        {
-            var error = HttpContext.Features.Get<IExceptionHandlerFeature>();
-
-            ViewData["Error"] = error.Error.Message;
-
-            return View();
-        }
+        return View();
     }
 }

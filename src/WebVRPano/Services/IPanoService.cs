@@ -1,7 +1,8 @@
-﻿namespace WebVRPano.Services
+﻿using System.Threading.Tasks;
+
+namespace WebVRPano.Services;
+
+public interface IPanoService
 {
-    public interface IPanoService
-    {
-        void LoadPano(string tinyId);
-    }
+    Task LoadPano(string tinyId);
 }

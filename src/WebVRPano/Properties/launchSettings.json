@@ -1,24 +1,13 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:4126/",
-      "sslPort": 0
-    }
-  },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
+    "WebVRPano": {
+      "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "",
       "environmentVariables": {
-        "ASPNET_ENV": "Production"
-      }
-    },
-    "web": {
-      "commandName": "web",
-      "environmentVariables": {
-        "Hosting:Environment": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5001",
+        "API_KEY": "5955322d-ba58-4b91-ae86-e40168d69998"
       }
     }
   }

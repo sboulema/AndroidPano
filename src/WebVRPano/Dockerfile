@@ -1,22 +1,9 @@
-FROM microsoft/dotnet:sdk AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS sdk
 WORKDIR /app
-
-# Copy csproj and restore as distinct layers
-COPY *.csproj .
-RUN dotnet restore
-
-# Copy everything else and build
 COPY . .
-RUN dotnet build
+RUN dotnet publish --runtime linux-musl-x64 --self-contained -o out
 
-# Publish
-FROM build-env AS publish
+FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-alpine
 WORKDIR /app
-RUN dotnet publish -c Release -o out
-
-# Build runtime image
-FROM microsoft/dotnet:aspnetcore-runtime
-WORKDIR /app
-COPY --from=publish /app/out .
-ENV ApiKey=guid
-ENTRYPOINT ["dotnet", "WebVRPano.dll"]
+COPY --from=sdk /app/out .
+ENTRYPOINT ["./WebVRPano"]
